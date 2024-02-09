@@ -4,6 +4,20 @@ const Language = require("../models/language.js");
 
 module.exports = languages;
 
+languages.get("/random", (req, res) => {
+    Language.find()
+    .then((languages) => {
+        const randomIndex = Math.floor(Math.random() * languages.length);
+        const randomLanguage = languages[randomIndex];
+        if (randomLanguage) {
+            res.json(randomLanguage);
+        }
+        else {
+            res.status(404).json({ error: "No languages found" })
+        }
+    })
+})
+
 languages.get("/seed", (req, res) => {
   Language.insertMany([
     {
